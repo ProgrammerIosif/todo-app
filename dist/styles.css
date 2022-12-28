@@ -4,29 +4,25 @@ body{
 }
 #container {
     height: 100vh;
+    width: 100vw;
     margin: 0;
     display: grid;
-    grid-template: 1fr 8fr / 1fr 5fr;
+    grid-template: 1fr 6fr / 1fr 3fr;
 }
 #header{
     grid-area: 1 / 1 / 2 / 3;
     font-size: 3rem;
-    height: 12vh;
     display: flex;
     align-items: center;
     padding-left: 5vw;
     background-color: red;
 }
-#content {
-    height: 90vh;
-    display: flex;
-}
 #dock{
-    width: 20vw;
     background-color: gray;
+    padding: 4vh 3vw;
 }
 #lists-container{
-    padding: 5vh 5vw;
+    padding: 0;
     display: flex;
     flex-direction: column;
     list-style: none;
@@ -36,12 +32,37 @@ body{
     font-size: 1.4rem;
 }
 #main{
-    width: 80vw;
     padding: 5vh 5vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr ;
 }
 #focused-list{
 
 }
 #focused-item{
 
+}
+button{
+    text-align: left;
+}
+#newListButton{
+    padding-left: 8px;
+}
+.list-title{
+    padding-left: 20px;
+    flex: 1;
+}
+#dock .list{
+    display: flex;
+    flex: 1;
+}
+.item{
+    display: flex;
+    flex: 1;
+}
+.item-title{
+    flex: 1;
+}
+ul{
+    padding: 0;
 }
