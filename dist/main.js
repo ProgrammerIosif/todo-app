@@ -1,24 +1,23 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 var __webpack_exports__ = {};
+var __webpack_unused_export__;
 
-;// CONCATENATED MODULE: ./src/dataStructures.js
-
+// DATA STRUCTURING
 
 const item = (title, description, dueDate, priority, checked) => {
-    undefined.title = title;
-    undefined.description = description;
-    undefined.dueDate = dueDate;
-    undefined.priority = priority;
-    undefined.checked = checked;
+    __webpack_unused_export__ = title;
+    __webpack_unused_export__ = description;
+    __webpack_unused_export__ = dueDate;
+    __webpack_unused_export__ = priority;
+    __webpack_unused_export__ = checked;
     
     return {title,description,dueDate,priority,checked};
 }
 
-const list = (priority) => {
-    console.log(undefined);
+const list = (title, priority) => {
     const list = [];
-    undefined.priority = priority;
+    __webpack_unused_export__ = title;
+    __webpack_unused_export__ = priority;
 
     const addItem = (item) => {
         if(item.priority === undefined || item.priority > list.length || item.priority < 1){
@@ -39,7 +38,7 @@ const list = (priority) => {
         // output the new list
     }
 
-    const getList = () => {
+    const getAllItems = () => {
         return list;
     }
 
@@ -47,14 +46,15 @@ const list = (priority) => {
         return list[index];
     }
     
-    return {addItem, removeItem, getList, getItem};
+    return {title, priority, addItem, removeItem, getAllItems, getItem};
 }
 
-const ToDoLists = (() => {
+const ToDo = (() => {
     const array = [];
+    let focusedList = -1;
 
     const addList = (list) => {
-        if(list.priority === undefined || list.priority > list.length) {
+        if(list.priority === undefined || list.priority > array.length || list.priority < 1) {
             list.priority = array.length+1;
             array.push(list);
         }
@@ -78,35 +78,105 @@ const ToDoLists = (() => {
         return array[index];
     }
 
-    return {addList, removeList, getAllLists, getList};
-})()
-;// CONCATENATED MODULE: ./src/index.js
+    return {addList, removeList, getAllLists, getList, focusedList};
+})();
 
 
-const list1 = list(100);
-list1.addItem(item("Item 1", "Description 1", "2022-12-27", 0, false));
+function interfaceBuilder() {
+    const container = document.querySelector("#container");
+    container.innerHTML = "";
+
+    const header = document.createElement("div");
+    header.id = "header";
+    header.textContent = "TO-DO"
+
+    const content = document.createElement("div");
+    content.id = "content";
+
+    const dock = document.createElement("div");
+    dock.id = "dock";
+
+    const listsContainer = document.createElement("ul");
+    listsContainer.id = "lists-container";
+    ToDo.getAllLists().forEach(list => {
+            const newList = document.createElement("button");
+            newList.classList.add("list-title");
+            newList.id = list.priority-1;
+            newList.textContent = list.title;
+            newList.addEventListener("click", () => {
+                    ToDo.focusedList = newList.id; 
+                    console.log(ToDo.focusedList);
+                    interfaceBuilder();
+                    return;
+                });
+            listsContainer.appendChild(newList);
+        })
+    dock.appendChild(listsContainer);
+
+
+
+    const main = document.createElement("div");
+    main.id = "main";
+
+    const focusedList = document.createElement("div");
+    focusedList.id = "focused-list";
+    if(ToDo.focusedList != -1){
+        const list = ToDo.getList(ToDo.focusedList);
+        const listTitle = document.createElement("div");
+        listTitle.textContent = list.title;
+        listTitle.id = 'focused-list-title';
+        focusedList.appendChild(listTitle);
+        const itemsContainer = document.createElement("ul");
+        itemsContainer.id = "items-container";
+        list.getAllItems().forEach(item => {
+                const newItem = document.createElement("li"); 
+                newItem.id = item.priority-1;
+                newItem.textContent = item.title;
+                itemsContainer.appendChild(newItem);
+            })
+        focusedList.appendChild(itemsContainer);
+    }
+
+    const expandedItem = document.createElement("div");
+    expandedItem.id = "focused-item";
+    expandedItem.innerHTML = "TO-DO";
+
+    main.appendChild(focusedList);
+    main.appendChild(expandedItem);
+
+    content.appendChild(dock);
+    content.appendChild(main);
+
+    container.appendChild(header);
+    container.appendChild(content);
+}
+
+
+const list1 = list('list23',100);
+list1.addItem(item("Item 1", "Description 1", "2022-12-27", -4, false));
 list1.addItem(item("Item 2", "Description 2", "2022-12-27", 2, false));
 list1.addItem(item("Item 3", "Description 3", "2022-12-27", 0, false));
 list1.addItem(item("Item 4", "Description 4", "2022-12-27", 0, false));
 list1.addItem(item("Item 5", "Description 5", "2022-12-27", 5, false));
-ToDoLists.addList(list1);
+ToDo.addList(list1);
 
-const list2 = list(0);
+const list2 = list('lisw5234',0);
 list2.addItem(item("Item 1", "Description 1", "2022-12-27", 0, false));
 list2.addItem(item("Item 2", "Description 2", "2022-12-27", 2, false));
 list2.addItem(item("Item 3", "Description 3", "2022-12-27", 0, false));
 list2.addItem(item("Item 4", "Description 4", "2022-12-27", 0, false));
 list2.addItem(item("Item 5", "Description 5", "2022-12-27", 5, false));
-ToDoLists.addList(list2);
+ToDo.addList(list2);
 
-const list3 = list(-2);
+const list3 = list('fsdf',-2);
 list3.addItem(item("Item 1", "Description 1", "2022-12-27", 3, false));
 list3.addItem(item("Item 2", "Description 2", "2022-12-27", 0, false));
 list3.addItem(item("Item 3", "Description 3", "2022-12-27", 34, false));
-ToDoLists.addList(list3);
+ToDo.addList(list3);
 
-const list4 = list();
-ToDoLists.addList(list4);
-ToDoLists.getAllLists().forEach(x => x.getList().forEach(y => console.log(y)));
+const list4 = list('fsdf');
+ToDo.addList(list4);
+
+interfaceBuilder();
 /******/ })()
 ;
