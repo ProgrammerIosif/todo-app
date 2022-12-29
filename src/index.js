@@ -172,8 +172,22 @@ function interfaceBuilder() {
         
         const itemTitle = document.createElement("div");
         itemTitle.textContent = item.title;
+        if(item.checked) itemTitle.classList.add("checked");
         itemTitle.classList.add("item-title");
         newItem.appendChild(itemTitle);
+
+        const itemCheckbox = document.createElement("input");
+        itemCheckbox.type = "checkbox";
+        itemCheckbox.checked = item.checked;
+        itemCheckbox.addEventListener("change", () =>{
+                item.checked = !item.checked;
+                if(item.checked)
+                    itemTitle.classList.add("checked");
+                else
+                    itemTitle.classList.remove("checked");
+            })
+        newItem.appendChild(itemCheckbox);
+        console.log(item);
         
         const itemDetails = document.createElement("button");
         itemDetails.textContent = "Details";
