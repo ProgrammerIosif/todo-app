@@ -112,6 +112,7 @@ const ToDo = (() => {
     return {addList, removeList, getAllLists, getList, focusedList, focusedItem, switchLists};
 })();
 
+// Document interface
 
 function interfaceBuilder() {
     const buildListElement = (list) => {
@@ -423,6 +424,7 @@ function interfaceBuilder() {
     container.appendChild(main);
 }
 
+// EXAMPLES
 
 const list1 = list('list1',1);
 list1.addItem(item("Item 1", "Description 1", "2022-12-27", 9, false));
