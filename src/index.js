@@ -34,6 +34,12 @@ const list = (title, priority) => {
         for(let i = index; i < list.length; i++){
             list[i].priority -= 1;
         }
+        if(ToDo.focusedItem == index){
+            ToDo.focusedItem = -1;
+        }
+        else if(ToDo.focusedItem > index){
+            ToDo.focusedItem--;
+        }   
     }
 
     const getAllItems = () => {
@@ -45,7 +51,6 @@ const list = (title, priority) => {
     }
 
     const switchItems = (index1, index2) => {
-        console.log(index1,index2)
         const item2 = list[index2];
         list[index2] = list[index1];
         list[index1] = item2; 
@@ -75,6 +80,7 @@ const ToDo = (() => {
             }
         }
         ToDo.focusedList = list.priority-1;
+        ToDo.focusedItem = -1;
     }
     
     const removeList = (index) => {
@@ -109,6 +115,7 @@ const ToDo = (() => {
     return {addList, removeList, getAllLists, getList, focusedList, focusedItem, switchLists};
 })();
 
+// Document interface
 
 function interfaceBuilder() {
     const buildListElement = (list) => {
@@ -185,9 +192,13 @@ function interfaceBuilder() {
                     itemTitle.classList.add("checked");
                 else
                     itemTitle.classList.remove("checked");
+                if(ToDo.focusedItem == item.priority-1){
+                    console.log('fdsa')
+                    interfaceBuilder();
+                    return;
+                }
             })
         newItem.appendChild(itemCheckbox);
-        console.log(item);
         
         const itemDetails = document.createElement("button");
         itemDetails.textContent = "Details";
@@ -203,7 +214,12 @@ function interfaceBuilder() {
         itemMoveUp.textContent = "<";
         itemMoveUp.addEventListener("click", () => {
                 if(newItem.id > 0){
+                    console.log(ToDo.focusedItem,newItem.id);
                     ToDo.getList(ToDo.focusedList).switchItems(newItem.id-1,newItem.id);
+                    if(newItem.id == ToDo.focusedItem)
+                        ToDo.focusedItem = ToDo.focusedItem - 1;
+                    else if(newItem.id-1 == ToDo.focusedItem)
+                        ToDo.focusedItem++;
                     interfaceBuilder();
                     return;
                 }
@@ -214,7 +230,12 @@ function interfaceBuilder() {
         itemMoveDown.textContent = ">";
         itemMoveDown.addEventListener("click", () => {
                 if(newItem.id < ToDo.getList(ToDo.focusedList).getLength()-1){
+                    console.log(ToDo.focusedItem,newItem.id);
                     ToDo.getList(ToDo.focusedList).switchItems(newItem.id,parseInt(newItem.id)+1);
+                    if(ToDo.focusedItem == parseInt(newItem.id))
+                        ToDo.focusedItem++;
+                    else if(ToDo.focusedItem == parseInt(newItem.id)+1)
+                        ToDo.focusedItem --;
                     interfaceBuilder();
                     return;
                 }
@@ -420,6 +441,7 @@ function interfaceBuilder() {
     container.appendChild(main);
 }
 
+// EXAMPLES
 
 const list1 = list('list1',1);
 list1.addItem(item("Item 1", "Description 1", "2022-12-27", 9, false));
